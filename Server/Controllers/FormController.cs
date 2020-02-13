@@ -15,10 +15,21 @@ namespace Hosted.Server.Controllers
         [HttpGet]
         public Form Get()
         {
-                return new Form { Elements = new List<Element> { 
-                    new TextInput {Name = "txtName",  Label = "Name", PlaceHolder="Enter your name"},
-                    new RadioButton {Name = "radGender", Label = "Gender", Options = new Dictionary<string, string> { { "M", "Male" }, {"F", "Female"} } }
-                } };
+            return new Form 
+            { 
+                Elements = new List<Element> 
+                { 
+                    new TextInput 
+                    { 
+                        Name = "txtName",  Label = "Name", PlaceHolder="Enter your name"
+                    },
+                    new RadioButton 
+                    { 
+                        Name = "radGender", Label = "Gender", 
+                        Options = new Dictionary<string, string> { { "M", "Male" }, {"F", "Female"} } 
+                    }
+                }
+            };
         }
     }
 }

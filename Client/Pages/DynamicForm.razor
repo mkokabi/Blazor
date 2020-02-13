@@ -1,6 +1,6 @@
 ﻿@page "/dynamicform"
-@using Hosted.Shared
 @using Newtonsoft.Json
+@using Hosted.Shared
 @inject HttpClient Http
 
 <h1>Dynamic form</h1>
@@ -12,38 +12,34 @@
 }
 else
 {
-    <table class="table">
-        <tbody>
-            @foreach (var element in form.Elements)
+  <table class="table">
+    <tbody>
+      @foreach (var element in form.Elements)
+      {
+        <tr>
+          <td>@element.Label</td>
+          @switch (element.ElementType)
+          {
+            case "TextInput":
             {
-            <tr>
-                <td>@element.Label</td>
-                @switch (element.ElementType)
-                {
-                    case "TextInput":
-                        {
-                            <td><input type="text" name="@element.Name" placeholder="@((element as TextInput).PlaceHolder)"></td>
-                            break;
-                        }
-                    case "RadioButton":
-                        {
-                            <td>@foreach (var option in (element as RadioButton).Options) {
-                                    <input type="radio" id="@option.Key" name="@element.Name" value="@option.Key">
-                                    <label for="male">@option.Value</label>
-                                    <br> } </td>
-
-                            break;
-                    }
-                default:
-                    {
-                        <td>Unknow control</td>
-                        break;
-                    }
+              <td><Hosted.Client.Components.TextInput Name="@element.Name" PlaceHolder="@((element as TextInput).PlaceHolder)" /></td>
+              break;
             }
-            </tr>
+            case "RadioButton":
+            {
+              <td><Hosted.Client.Components.RadioButton Name="@element.Name" Options="@((element as RadioButton).Options)" /></td>
+              break;
             }
-        </tbody>
-    </table>
+            default:
+            {
+              <td>Unknow control</td>
+              break;
+              }
+            }
+        </tr>
+      }
+    </tbody>
+  </table>
 }
 
 @code {
