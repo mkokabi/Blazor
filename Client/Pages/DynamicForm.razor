@@ -1,0 +1,59 @@
+﻿@page "/dynamicform"
+@using Hosted.Shared
+@using Newtonsoft.Json
+@inject HttpClient Http
+
+<h1>Dynamic form</h1>
+
+
+@if (form == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <tbody>
+            @foreach (var element in form.Elements)
+            {
+            <tr>
+                <td>@element.Label</td>
+                @switch (element.ElementType)
+                {
+                    case "TextInput":
+                        {
+                            <td><input type="text" name="@element.Name" placeholder="@((element as TextInput).PlaceHolder)"></td>
+                            break;
+                        }
+                    case "RadioButton":
+                        {
+                            <td>@foreach (var option in (element as RadioButton).Options) {
+                                    <input type="radio" id="@option.Key" name="@element.Name" value="@option.Key">
+                                    <label for="male">@option.Value</label>
+                                    <br> } </td>
+
+                            break;
+                    }
+                default:
+                    {
+                        <td>Unknow control</td>
+                        break;
+                    }
+            }
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    Form form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var st = await Http.GetStringAsync("Form");
+
+        form = JsonConvert.DeserializeObject<Form>(st, settings: new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+    }
+
+}
