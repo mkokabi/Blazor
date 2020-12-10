@@ -1,7 +1,5 @@
 ﻿@page "/dynamicform"
-@using Newtonsoft.Json
 @using Hosted.Shared
-@inject HttpClient Http
 
 <h1>Dynamic form</h1>
 
@@ -40,16 +38,4 @@ else
       }
     </tbody>
   </table>
-}
-
-@code {
-    Form form;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var st = await Http.GetStringAsync("Form");
-
-        form = JsonConvert.DeserializeObject<Form>(st, settings: new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
-    }
-
 }
