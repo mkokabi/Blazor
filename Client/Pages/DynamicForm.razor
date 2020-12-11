@@ -1,8 +1,6 @@
 ﻿@page "/dynamicform"
 @using Hosted.Shared
-
 <h1>Dynamic form</h1>
-
 
 @if (form == null)
 {
@@ -10,32 +8,44 @@
 }
 else
 {
-  <table class="table">
-    <tbody>
-      @foreach (var element in form.Elements)
-      {
-        <tr>
-          <td>@element.Label</td>
-          @switch (element.ElementType)
-          {
-            case "TextInput":
+    <table class="table">
+        <tbody>
+            @foreach (var element in form.Elements)
             {
-              <td><Hosted.Client.Components.TextInput Name="@element.Name" PlaceHolder="@((element as TextInput).PlaceHolder)" /></td>
-              break;
+                <tr>
+                    <td>@element.Label</td>
+                    @switch (element.ElementType)
+                    {
+                        case "TextInput":
+                            {
+                                if (!ElementValues.ContainsKey(element.Name))
+                                    ElementValues.Add(element.Name, (element as TextInput).Value);
+
+                                <td><Hosted.Client.Components.TextInput Name="@element.Name" 
+                                                                        PlaceHolder="@((element as TextInput).PlaceHolder)"
+                                                                        Value="@((element as TextInput).Value)"
+                                                                        /></td>
+
+                                break;
+                            }
+                        case "RadioButton":
+                            {
+                                <td><Hosted.Client.Components.RadioButton Name="@element.Name" Options="@((element as RadioButton).Options)" /></td>
+                                break;
+                            }
+                        default:
+                            {
+                                <td>Unknow control</td>
+                                break;
+                            }
+                    }
+                </tr>
             }
-            case "RadioButton":
-            {
-              <td><Hosted.Client.Components.RadioButton Name="@element.Name" Options="@((element as RadioButton).Options)" /></td>
-              break;
-            }
-            default:
-            {
-              <td>Unknow control</td>
-              break;
-              }
-            }
-        </tr>
-      }
-    </tbody>
-  </table>
+            <tr>
+                <td>
+                    <button class="btn btn-primary" @onclick="Submit">Submit</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 }

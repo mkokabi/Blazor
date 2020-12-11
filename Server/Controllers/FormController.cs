@@ -18,18 +18,29 @@ namespace Hosted.Server.Controllers
             return new Form 
             { 
                 Elements = new List<Element> 
-                { 
-                    new TextInput 
-                    { 
-                        Name = "txtName",  Label = "Name", PlaceHolder="Enter your name"
+                {
+                    new TextInput
+                    {
+                        Name = "txtFName",  Label = "First Name", PlaceHolder="Enter your first name"
+                    },
+                    new TextInput
+                    {
+                        Name = "txtLName",  Label = "Last Name", PlaceHolder="Enter your last name",
+                        Value="Kokabi"
                     },
                     new RadioButton 
                     { 
                         Name = "radGender", Label = "Gender", 
-                        Options = new Dictionary<string, string> { { "M", "Male" }, {"F", "Female"} } 
+                        Options = new Dictionary<string, string> { { "M", "Male" }, {"F", "Female"} }                        
                     }
                 }
             };
+        }
+
+        [HttpPost]
+        public string Submit([FromBody] Dictionary<string, string> formValues)
+        {
+            return $"Hello {formValues["txtFName"]} {formValues["txtLName"]}";
         }
     }
 }

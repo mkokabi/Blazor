@@ -4,6 +4,6 @@ namespace Hosted.Shared
 {
     public class Form
     {
-        public List<Element> Elements { get; set; }
+        public List<Element> Elements { get; set; } = new List<Element>();
     }
 }
