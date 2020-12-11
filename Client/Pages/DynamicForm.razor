@@ -42,10 +42,18 @@ else
                 </tr>
             }
             <tr>
-                <td>
+                <td colspan="2">
                     <button class="btn btn-primary" @onclick="Submit">Submit</button>
                 </td>
             </tr>
+            @if (!string.IsNullOrWhiteSpace(serverResponse))
+            {
+            <tr>
+                <td colspan="2">
+                    <p>Response from server: @serverResponse</p>
+                </td>
+            </tr>
+            }
         </tbody>
     </table>
 }
